@@ -76,13 +76,16 @@ class ComponentLoader {
     }
 
     static async loadAllComponents() {
+        // Load inline components immediately as fallback
+        this.loadInlineComponents();
+        
         try {
-            // Try to load components from files
+            // Try to load components from files (will override inline ones if successful)
             await this.loadComponent('navbar', '#navbar-placeholder');
             await this.loadComponent('footer', '#footer-placeholder');
         } catch (error) {
-            // If fetch fails, load inline components
-            this.loadInlineComponents();
+            // If fetch fails, inline components are already loaded
+            console.log('Using inline components fallback');
         }
         
         // Update active navigation link after navbar is loaded
@@ -90,7 +93,7 @@ class ComponentLoader {
             this.updateActiveNavLink();
             // Notify that components are loaded
             document.dispatchEvent(new CustomEvent('componentsLoaded'));
-        }, 100);
+        }, 50); // Reduced delay for faster initialization
     }
 
     static updateActiveNavLink() {

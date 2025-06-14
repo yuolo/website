@@ -153,7 +153,7 @@ function typeWriterHTML(element, htmlContent, speed = 100) {
 function initTypeAnimation() {
     const heroTitle = document.querySelector('.hero-title');
     
-    if (heroTitle && (window.location.pathname.includes('index.html') || window.location.pathname === '/' || window.location.pathname.endsWith('/volody'))) {
+    if (heroTitle && (window.location.pathname.includes('index.html') || window.location.pathname === '/' || window.location.pathname.endsWith('/website'))) {
         // Prevent double animation
         if (heroTitle.dataset.animated) {
             return;
@@ -171,8 +171,17 @@ document.addEventListener('componentsLoaded', function() {
     initTypeAnimation();
 });
 
-// Fallback: run after DOM loaded with delay if components event doesn't fire
+// Improved fallback: run after DOM loaded with multiple attempts
 document.addEventListener('DOMContentLoaded', function() {
+    // Try immediately
+    setTimeout(() => {
+        const heroTitle = document.querySelector('.hero-title');
+        if (heroTitle && !heroTitle.dataset.animated) {
+            initMobileNavigation();
+            initTypeAnimation();
+        }
+    }, 100);
+    
     // Wait for components to load, then run animations as fallback
     setTimeout(() => {
         const heroTitle = document.querySelector('.hero-title');
@@ -182,13 +191,22 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }, 500);
     
-    // Also try immediately if hero title is already there
+    // Final fallback after longer delay
+    setTimeout(() => {
+        const heroTitle = document.querySelector('.hero-title');
+        if (heroTitle && !heroTitle.dataset.animated) {
+            initMobileNavigation();
+            initTypeAnimation();
+        }
+    }, 1000);
+    
+    // Final final fallback
     setTimeout(() => {
         if (document.querySelector('.hero-title') && !document.querySelector('.hero-title').dataset.animated) {
             initMobileNavigation();
             initTypeAnimation();
         }
-    }, 100);
+    }, 2000);
 });
 
 // Parallax effect for hero section
