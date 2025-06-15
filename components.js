@@ -91,6 +91,10 @@ class ComponentLoader {
         // Update active navigation link after navbar is loaded
         setTimeout(() => {
             this.updateActiveNavLink();
+            // Initialize mobile navigation after components load
+            if (typeof initMobileNavigation === 'function') {
+                initMobileNavigation();
+            }
             // Notify that components are loaded
             document.dispatchEvent(new CustomEvent('componentsLoaded'));
         }, 50); // Reduced delay for faster initialization

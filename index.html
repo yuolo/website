@@ -135,6 +135,13 @@
                     setTimeout(typeChar, 300);
                 }
             }, 100);
+            
+            // Also ensure mobile navigation is initialized
+            setTimeout(() => {
+                if (typeof initMobileNavigation === 'function') {
+                    initMobileNavigation();
+                }
+            }, 200);
         });
     </script>
 </body>

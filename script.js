@@ -173,7 +173,10 @@ document.addEventListener('componentsLoaded', function() {
 
 // Improved fallback: run after DOM loaded with multiple attempts
 document.addEventListener('DOMContentLoaded', function() {
-    // Try immediately
+    // Initialize mobile navigation immediately on all pages
+    initMobileNavigation();
+    
+    // Try immediately for homepage animations
     setTimeout(() => {
         const heroTitle = document.querySelector('.hero-title');
         if (heroTitle && !heroTitle.dataset.animated) {
